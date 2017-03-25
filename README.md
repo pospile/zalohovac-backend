@@ -19,6 +19,7 @@ Produkční server běží na statické ip adrese (138.68.67.174). Tento server 
 | 3000   | 127.0.0.1     | API           |
 | 3306   | 127.0.0.1     | MySQL         |
 | 2579   | Everyone (*)  | socket.io     |
+
 Není v žádném případě vhodné do serveru zasahovat pomocí ssh, server je nakonfigurován a zazálohován u cloud poskytovatele a není v zájmu nikoho měnit jakkékoli nastevení. Je samozřejmě možné otevřít alternativní porty atp, ale je preferovatelné je nechat uzavřené.
 Produkční server musí mít nejvyšší možnou dostupnost a žádná ze služeb nesmí mít výpadek.
 
