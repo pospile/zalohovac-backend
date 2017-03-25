@@ -9,7 +9,7 @@ if (argv.v == true)
 
     versiony
         .patch()                //will cause the minor version to be bumped by 1
-        .from('./package.json')   //read the version from version.json
+        .from('/home/package.json')   //read the version from version.json
         .to();
 }
 else
