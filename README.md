@@ -24,4 +24,4 @@ Není v žádném případě vhodné do serveru zasahovat pomocí ssh, server je
 Produkční server musí mít nejvyšší možnou dostupnost a žádná ze služeb nesmí mít výpadek.
 
 tento repozitář je jednou za čas odeslán k buildu na build server, kde je zpracován a nahrán na produkční server (138.68.67.174)
-Build server vezme všechny dosavadní commity v branchy master a spustí jejich build, pokud uspěje, vezme znovu tyto commity, nahraje je na produkční server a spustí build i zde. Build server může běžet max 10krář za den a bude lepší, pokud to vzhledem k povaze (produkční!) serveru bude méněkrát a v co nejméně frekventovanou dobu (mezi 3. a 4. hodinou ranní).
+Build server vezme všechny dosavadní commity v branchy master a spustí jejich build, pokud uspěje, vezme znovu tyto commity, nahraje je na produkční server a spustí build i zde. Build server může běžet max 10krát za den a bude lepší, pokud to vzhledem k povaze (produkční!) serveru bude méněkrát a v co nejméně frekventovanou dobu (mezi 3. a 4. hodinou ranní).
