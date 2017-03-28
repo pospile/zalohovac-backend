@@ -17,8 +17,8 @@ app.use(function(req, res, next) {
 
 app.get('/', function (req, res) {
     res.json({"status": "ok"});
-})
+});
 
 app.listen(3000, function () {
     console.log('rest api is running at localhost:3000!')
-})
+});
