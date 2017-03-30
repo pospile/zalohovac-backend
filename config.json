@@ -1,0 +1,7 @@
+{
+  "prod_url": "138.68.67.174",
+  "dev_url": "127.0.0.1",
+  "debug": true,
+  "auth": true,
+  "db_engine": "mysql.js"
+}
