@@ -1,32 +1,35 @@
 {
-    "name": "zalohovac-backend",
-    "version": "0.0.2",
-    "description": "backend",
-    "main": "bin.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/pospile/zalohovac-backend.git"
-    },
-    "keywords": [
-        "backend",
-        "backup",
-        "server",
-        "app"
-    ],
-    "author": "Vojtech Pospichal",
-    "license": "UNLICENSED",
-    "bugs": {
-        "url": "https://github.com/pospile/zalohovac-backend/issues"
-    },
-    "homepage": "https://github.com/pospile/zalohovac-backend#readme",
-    "dependencies": {
-        "express": "^4.15.2",
-        "minimist": "^1.2.0",
-        "request-ip": "^2.0.1",
-        "socket.io": "^1.7.3",
-        "versiony": "^1.4.0"
-    }
+  "name": "zalohovac-backend",
+  "version": "0.0.2",
+  "description": "backend",
+  "main": "bin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pospile/zalohovac-backend.git"
+  },
+  "keywords": [
+    "backend",
+    "backup",
+    "server",
+    "app"
+  ],
+  "author": "Vojtech Pospichal",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/pospile/zalohovac-backend/issues"
+  },
+  "homepage": "https://github.com/pospile/zalohovac-backend#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "express": "^4.15.2",
+    "minimist": "^1.2.0",
+    "mysql": "^2.13.0",
+    "request-ip": "^2.0.1",
+    "socket.io": "^1.7.3",
+    "token-generator": "^1.0.0",
+    "versiony": "^1.4.0"
+  }
 }

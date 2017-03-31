@@ -3,5 +3,13 @@
   "dev_url": "127.0.0.1",
   "debug": true,
   "auth": true,
-  "db_engine": "mysql.js"
+  "db_engine": "mysql.js",
+
+
+  "host"  : "130.211.100.47",
+  "user"  : "root",
+  "pass"  : "25791998",
+  "db"    : "zalohovac",
+  "salt"  : "!aabbccdddWOWCATMASTER!"
+
 }

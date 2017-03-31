@@ -12,5 +12,9 @@ io.on('connection', function (socket) {
 
   socket.on('auth', function (data) {
     console.log(data);
+    if (data.mac != undefined)
+    {
+
+    }
   });
 });

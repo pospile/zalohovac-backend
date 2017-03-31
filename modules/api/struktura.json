@@ -1,0 +1,19 @@
+{
+  "C":
+  {
+    "program_files":
+    {
+      "vlc":
+      {
+
+      },
+      "files": ["vlc.exe", "library.dll"]
+    },
+    "program_files(x86)":
+    {
+
+    },
+    "files": []
+  },
+  "files": []
+}
