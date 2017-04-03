@@ -9,7 +9,7 @@ console.log("Spouštím dostupné api");
 
 var db = require(appRoot+"/modules/database.js");
 
-
+/*
 require('getmac').getMac(function(err,macAddress){
     if (err)  throw err
     console.log(macAddress)
@@ -24,6 +24,7 @@ require('getmac').getMac(function(err,macAddress){
         }
     });
 });
+*/
 
 
 

@@ -13,7 +13,7 @@ var TokenGenerator = require( 'token-generator' )({
  pass            = password chosen by user (none hashed)
  driver_customer = {driver: [driver_id], customer: [customer_id]}
  */
-var CreateUser = function (name, pass, driver_customer)
+var CreateUser = function (name, pass)
 {
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(pass, salt);
@@ -29,24 +29,10 @@ var CreateUser = function (name, pass, driver_customer)
         var sql = "insert into customer (name, pass";
         var values = "values ('" + name + "', '" + hash + "'";
 
-        if (driver_customer != undefined)
-        {
-            if (driver_customer.driver != undefined)
-            {
-                sql += ", driver";
-                values += ", " + driver_customer.driver;
-            }
-            if (driver_customer.customer != undefined)
-            {
-                sql += ", customer";
-                values += ", " + driver_customer.customer;
-            }
-        }
-
         sql += ") ";
         values += ");"
         console.log("query: " + sql + values);
-        db.InsertInto("user", ["name", "pass", "permission"], [name, hash, 0], function (data) {
+        db.InsertInto("tbUzivatel", ["name", "pass", "token"], [name, hash, 0], function (data) {
             console.log("User is saved now.");
             //console.log(data);
         });

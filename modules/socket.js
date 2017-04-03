@@ -28,6 +28,12 @@ io.on('connection', function (socket) {
                         socket.emit("auth", {"error": false, "init": true, "token": "11223344", "mac": mac});
                     });
                 }
+                else
+                {
+                    console.log("Mac adresa nalezena.");
+                    socket.emit("auth", {"error": false, "init": false, "token": "11223344", "mac": mac});
+                    console.log("data odeslana");
+                }
 
             });
         }
