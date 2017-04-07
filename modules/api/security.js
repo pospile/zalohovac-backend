@@ -1,17 +1,57 @@
-var db = require("./db.js");
-var config = require("../config.js");
 var bcrypt = require('bcryptjs');
 
 var TokenGenerator = require( 'token-generator' )({
-    salt: require("../config.json").salt,
+    salt: require(appRoot + "/config.json").salt,
     timestampMap: 'abcdefghij', // 10 chars array for obfuscation proposes
 });
+
+
+//CREATE NEW SECURED TOKEN FOR DEVICE
+var CreateDeviceToken = function (id, mac, session_id, callback) {
+    //vytvor token podle zadane mac adresy (identifikatoru)
+    //var salt = bcrypt.genSaltSync(10);
+
+    console.log("generuji token z: mac-" + mac + " session: " + session_id);
+
+    var hash = bcrypt.hashSync(mac, bcrypt.genSaltSync(10));
+
+    console.log("Zgenerovaný hash:" + hash);
+
+    if (bcrypt.compareSync(mac, hash))
+    {
+        console.log("mac hashed as: " + hash);
+    }
+    callback(hash);
+};
+
+//CHECK IF DEVICE TOKEN IS VALID AND SERVER CAN COMMUNICATE WITH DEVICE
+var CheckDeviceToken = function (id, mac, token) {
+    //zkontroluj token pro daný device
+
+};
+
+//IN CASE OF SECURTIY LEAK, DISABLE TOKEN IMMIDIATELY
+var DisableActiveToken = function () {
+
+};
+
+
+var CreateNewDevice = function () {
+
+};
+
+var AllowDevice = function () {
+
+};
+
+var DisableDevice = function () {
+
+};
 
 /*
  Create user in database (at least customer account should already exists)
  name            = name of user in database
  pass            = password chosen by user (none hashed)
- driver_customer = {driver: [driver_id], customer: [customer_id]}
  */
 var CreateUser = function (name, pass)
 {
@@ -64,5 +104,4 @@ var CheckUser = function (pass, hash, callback) {
     callback(bcrypt.compareSync(pass, hash));
 };
 
-exports.Tokenize = Tokenize;
-exports.CreateUser = CreateUser;
+exports.CreateToken = CreateDeviceToken;

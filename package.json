@@ -24,6 +24,8 @@
   "homepage": "https://github.com/pospile/zalohovac-backend#readme",
   "dependencies": {
     "bcrypt": "^1.0.2",
+    "bcryptjs": "^2.4.3",
+    "cron": "^1.2.1",
     "express": "^4.15.2",
     "getmac": "^1.2.1",
     "minimist": "^1.2.0",
