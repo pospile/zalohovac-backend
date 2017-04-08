@@ -10,7 +10,7 @@ var db = require(appRoot + "/modules/database.js");
 
 io.on('connection', function (socket) {
     console.log("Klient " + socket.id + " pripojen");
-    socket.emit('init', { token: socket.id });
+    socket.emit('init', { reset: socket.id });
 
     socket.on('auth', function (data) {
     console.log(data);
@@ -25,6 +25,7 @@ io.on('connection', function (socket) {
                if (exits)
                {
                    console.log("Mac adresa nalezena.");
+
                    socket.emit("auth", {"error": false, "init": false, "token": "", "mac": mac});
                    console.log("data odeslana");
                }
@@ -43,6 +44,7 @@ io.on('connection', function (socket) {
 
             if (data.device != undefined)
             {
+                var request = data;
                 console.log("Jedná se o zařízení z jiné platformy...");
                 console.log("Mac adresa nahrazena jedinečným id zařízení, žádá si zvýšenou pozornost admina!!!");
                 var mac = data.device;
@@ -50,9 +52,29 @@ io.on('connection', function (socket) {
                 auth.DeviceExists(mac, function (exits) {
                     if (exits)
                     {
-                        console.log("Mac adresa nalezena.");
-                        socket.emit("auth", {"error": false, "init": false, "token": "", "device": mac, "platform": "android"});
-                        console.log("data odeslana");
+                        console.log("zařízení existuje, hledám token")
+                        db.GetDbEngine(function (db) {
+                            db.SelectFrom ("tbZarizeni", "*", null, "where mac_adress = '" + mac + "'", function (data) {
+                                var device = data;
+                                console.log("zarizeni a jeho id:");
+                                console.log("---------------------");
+                                console.log(data);
+                                console.log("---------------------");
+                                db.SelectFrom ("tbToken", "*", null, "where device_id = '" + data[0].id + "'", function (data) {
+                                console.log("ID zařízení adresa nalezena.");
+                                if (request.session == device[0].first_socket_id)
+                                {
+                                    socket.emit("auth", {"error": true, "init": false, "token": data[0].token, "device": mac, "platform": "android", "desc": "token cannot be send if no first session id is provided (security reason)"});
+                                }
+                                else
+                                {
+                                    socket.emit("auth", {"error": true, "init": false, "token": "token access denied", "device": mac, "platform": "android", "desc": "token cannot be send if no first session id is provided (security reason)"});
+                                }
+                                console.log("data odeslana");
+                                });
+                            });
+                        });
+
                     }
                     else
                     {
@@ -61,6 +83,7 @@ io.on('connection', function (socket) {
                             console.log(data);
                             console.log("Provádím select na vytvořené id");
                             db.GetDbEngine(function (db) {
+                                var updated = data.insertId;
                                 db.SelectFrom ("tbZarizeni", "*", null, "where id = '" + data.insertId + "'", function (data) {
                                     console.log("Dotaz na id zařízení dokončen.");
                                     console.log(data);
@@ -68,6 +91,9 @@ io.on('connection', function (socket) {
                                         console.log("Vygenerovali jsme token");
                                         console.log(token);
                                         socket.emit("auth", {"error": false, "init": true, "token": token, "device": mac, "platform": "android"});
+                                        db.InsertInto("tbToken", ["token", "device_id"], [token, updated], function (data) {
+                                            console.log("token saved");
+                                        });
                                     });
                                 });
                             });
