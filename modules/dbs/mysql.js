@@ -27,7 +27,8 @@ var insert_into = function (tbName, object_keys, object_values, callback) {
     console.log(sql);
     config.GetConnection(function (connection) {
         connection.query(sql, function (error, results, fields) {
-            callback(results);
+            if (error) callback(error);
+            else callback(results);
             connection.release();
         });
     });

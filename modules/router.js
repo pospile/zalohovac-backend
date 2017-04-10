@@ -19,6 +19,10 @@ app.get('/', function (req, res) {
     res.json({"status": "ok"});
 });
 
+app.post('/token', function (req, res) {
+    res.json({"status": "ok"});
+});
+
 app.listen(3000, function () {
     console.log('rest api is running at localhost:3000!')
 });

@@ -18,8 +18,13 @@ var load_device_by_mac = function (mac, callback) {
 var create_new_device_from_mac = function (mac, socket_id, platform, callback) {
     console.log("Zapisuji do databáze nové zařízení");
     database.InsertInto("tbZarizeni", ["mac_adress", "enabled", "last_online", "first_socket_id", "platform"], [mac, 0, new Date().toISOString().slice(0, 19).replace('T', ' '), socket_id, platform], function (data) {
-        console.log(data);
+        //console.log(data);
         callback(data);
+        console.log("Zapisuji zařízení: " + data.insertId);
+        database.InsertInto("tbDevicesGroups", ["device_id", "group_id"], [data.insertId,1], function (data) {
+            console.log(data);
+            console.log("Zařízení přidáno do defaultní skupiny");
+        });
     });
 };
 
