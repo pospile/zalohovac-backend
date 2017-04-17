@@ -14,6 +14,21 @@ var load_device_by_mac = function (mac, callback) {
     });
 };
 
+var device_exists = function (mac, callback) {
+    load_device_by_mac(mac, function (data) {
+        console.log(data);
+        if (data.length == 0)
+        {
+            callback(false);
+        }
+        else
+        {
+            callback(true);
+        }
+    });
+};
+
+
 
 var create_new_device_from_mac = function (mac, socket_id, platform, callback) {
     console.log("Zapisuji do databáze nové zařízení");
@@ -31,3 +46,4 @@ var create_new_device_from_mac = function (mac, socket_id, platform, callback) {
 exports.LoadDeviceByMac = load_device_by_mac;
 exports.CreateNewDeviceByMac = create_new_device_from_mac;
 exports.GetDbEngine = get_db_engine;
+exports.DeviceExists = device_exists;

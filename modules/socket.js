@@ -5,7 +5,6 @@ var io = require('socket.io')(server);
 server.listen(2579);
 console.log("Socket api is running on 2579");
 
-var auth = require(appRoot + "/modules/api/auth.js");
 var db = require(appRoot + "/modules/database.js");
 
 io.on('connection', function (socket) {
@@ -50,7 +49,7 @@ io.on('connection', function (socket) {
                     console.log("Mac adresa nahrazena jedinečným id zařízení, žádá si zvýšenou pozornost admina!!!");
                     var mac = data.device;
 
-                    auth.DeviceExists(mac, function (exits) {
+                    db.DeviceExists(mac, function (exits) {
                         if (exits)
                         {
                             console.log("zařízení existuje, hledám token")

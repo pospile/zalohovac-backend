@@ -26,7 +26,12 @@ require('getmac').getMac(function(err,macAddress){
 });
 */
 
-
+/*
+var CronJob = require('cron').CronJob;
+new CronJob('* * * * * *', function() {
+    console.log('You will see this message every second');
+}, null, true);
+*/
 
 require("./modules/router.js");
 require("./modules/tasker.js");

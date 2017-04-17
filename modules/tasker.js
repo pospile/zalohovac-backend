@@ -22,12 +22,12 @@ db.GetDbEngine(function (db) {
                             onTick: function() {
                                 console.log("Job probiha");
                             },
-                            start: true,
-                            timeZone: 'America/Los_Angeles'
+                            start: true
                         });
                         job.start();
                         console.log("job running?" + job.running);
                     } catch(ex) {
+                        console.log("invalid cron: " + ex)
                         callback(false, "invalid cron: " + ex);
                     }
                 }
@@ -44,12 +44,6 @@ db.GetDbEngine(function (db) {
 
 
 var check_cron = function (cron_string, callback) {
-
-    try {
-        new CronJob(cron_string, function() {
-            callback(true, "valid cron string");
-        })
-    } catch(ex) {
-        callback(false, "invalid cron-string: " + ex);
-    }
+    console.log("Kontroluji cron-job.")
+    callback(true, "valid");
 };

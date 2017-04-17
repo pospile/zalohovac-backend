@@ -4,6 +4,7 @@
   "debug": true,
   "auth": true,
   "db_engine": "mysql.js",
+  "server_id": "system_main_0",
 
 
   "host"  : "130.211.100.47",

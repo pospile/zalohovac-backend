@@ -5,7 +5,6 @@ var TokenGenerator = require( 'token-generator' )({
     timestampMap: 'abcdefghij', // 10 chars array for obfuscation proposes
 });
 
-
 //CREATE NEW SECURED TOKEN FOR DEVICE
 var CreateDeviceToken = function (id, mac, session_id, callback) {
     //vytvor token podle zadane mac adresy (identifikatoru)
@@ -24,29 +23,32 @@ var CreateDeviceToken = function (id, mac, session_id, callback) {
     callback(hash);
 };
 
-//CHECK IF DEVICE TOKEN IS VALID AND SERVER CAN COMMUNICATE WITH DEVICE
-var CheckDeviceToken = function (id, mac, token) {
-    //zkontroluj token pro daný device
-
+var CreateNewUser = function (username, pass) {
+    CreateNewHashForUser(pass, function (data) {
+        console.log(data);
+        require(appRoot + "/modules/database.js").GetDbEngine(function (db) {
+            db.InsertInto("tbUzivatel", ["name", "pass", "permission_group"], [username, data, 3],function (data) {
+                console.log(data);
+            });
+        });
+    });
 };
 
-//IN CASE OF SECURTIY LEAK, DISABLE TOKEN IMMIDIATELY
-var DisableActiveToken = function () {
+var CreateNewHashForUser = function (pass, callback) {
+    var hash = bcrypt.hashSync(pass, bcrypt.genSaltSync(10));
+    callback(hash);
+};
 
+var CheckHashForUser = function (pass, hash, callback) {
+    callback(bcrypt.compareSync(pass, hash));
+};
+
+var GenerateTokenFromID = function (unique_id, expiry, callback) {
+    var token = bcrypt.hashSync(unique_id+expiry, bcrypt.genSaltSync(10));
+    callback(token);
 };
 
 
-var CreateNewDevice = function () {
-
-};
-
-var AllowDevice = function () {
-
-};
-
-var DisableDevice = function () {
-
-};
 
 /*
  Create user in database (at least customer account should already exists)
@@ -105,3 +107,6 @@ var CheckUser = function (pass, hash, callback) {
 };
 
 exports.CreateToken = CreateDeviceToken;
+exports.CreateNewHashForUser = CreateNewHashForUser;
+exports.CheckHashForUser = CheckHashForUser;
+exports.GenerateTokenFromID = GenerateTokenFromID;
