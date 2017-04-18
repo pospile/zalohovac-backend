@@ -8,6 +8,8 @@ function TokenExpireIn() {
 
 var CheckTokenValidity = function (callback) {
 
+    $("#app").hide();
+
     if (!store.get("check"))
     {
         store.set("check", 1);
@@ -55,6 +57,7 @@ var CheckTokenValidity = function (callback) {
         else
         {
             console.log("User accepted, redirect not neccessary now.");
+            $("#app").show();
         }
     }
     else
@@ -113,6 +116,8 @@ var login = function (name, pass) {
     alertify.log("Logging into Zalohovac, please wait.");
 };
 
+
+//SEND IMMIDIATE REQUEST TO DESTROY TOKEN
 var force_logout = function () {
     store.remove("token");
     store.remove("expire");

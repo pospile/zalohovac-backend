@@ -20,7 +20,8 @@ db.GetDbEngine(function (db) {
                         var job = new CronJob({
                             cronTime: data[i].cron_time,
                             onTick: function() {
-                                console.log("Job probiha");
+                                //console.log("Job #"+i + " probiha");
+
                             },
                             start: true
                         });
