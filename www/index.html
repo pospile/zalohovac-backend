@@ -19,7 +19,7 @@
 
 </head>
 <body>
-  <div id="app" class="app app-default" style="">
+  <div class="app app-default" style="">
 
         <aside class="app-sidebar" id="sidebar">
           <div class="sidebar-header">
@@ -33,11 +33,29 @@
               <li class="active">
                 <a href="./index.html">
                   <div class="icon">
-                    <i class="fa fa-tasks" aria-hidden="true"></i>
+                    <i class="fa fa-database" aria-hidden="true"></i>
                   </div>
                   <div class="title">Dashboard</div>
                 </a>
               </li>
+              <li class="@@menu.locations">
+                <a href="./locations.html">
+                  <div class="icon">
+                    <i class="fa fa-tasks" aria-hidden="true"></i>
+                  </div>
+                  <div class="title">Backup locations</div>
+                </a>
+              </li>
+                <li class="@@menu.devices">
+                    <a href="./devices.html">
+                        <div class="icon">
+                            <i class="fa fa-desktop" aria-hidden="true"></i>
+                        </div>
+                        <div class="title">Devices</div>
+                    </a>
+                </li>
+
+                <!--
               <li class="@@menu.messaging">
                 <a href="./messaging.html">
                   <div class="icon">
@@ -46,6 +64,7 @@
                   <div class="title">Notification</div>
                 </a>
               </li>
+
               <li class="dropdown ">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <div class="icon">
@@ -65,7 +84,7 @@
                     <li class="line"></li>
                     <li class="section"><i class="fa fa-file-o" aria-hidden="true"></i> Advanced Components</li>
                     <li><a href="./uikits/pricing-table.html">Pricing Table</a></li>
-                    <!-- <li><a href="./uikits/timeline.html">Timeline</a></li> -->
+                    <!-- <li><a href="./uikits/timeline.html">Timeline</a></li> --> <!--
                     <li><a href="./uikits/chart.html">Chart</a></li>
                   </ul>
                 </div>
@@ -85,13 +104,14 @@
                     <li><a href="./pages/search.html">Search</a></li>
                     <li class="line"></li>
                     <li class="section"><i class="fa fa-file-o" aria-hidden="true"></i> Landing</li>
-                    <!-- <li><a href="./pages/landing.html">Landing</a></li> -->
+                    <!-- <li><a href="./pages/landing.html">Landing</a></li> --> <!--
                     <li><a href="login.html">Login</a></li>
                     <li><a href="./pages/register.html">Register</a></li>
-                    <!-- <li><a href="./pages/404.html">404</a></li> -->
+                    <!-- <li><a href="./pages/404.html">404</a></li> --> <!--
                   </ul>
                 </div>
               </li>
+            -->
             </ul>
           </div>
           <div class="sidebar-footer">
@@ -105,7 +125,7 @@
           </div>
         </aside>
 
-        <div class="app-container">
+        <div id="app" class="app-container">
 
           <nav class="navbar navbar-default" id="navbar">
           <div class="container-fluid">
@@ -181,7 +201,7 @@
           </button>
           <div class="toggle-content">
             <ul class="actions">
-              <li><a href="#">New backup</a></li>
+              <li><a href="#"><i class="icon fa fa-circle-o-notch fa-spin"></i> New backup</a></li>
               <li><a href="#">Reverse backup</a></li>
             </ul>
           </div>

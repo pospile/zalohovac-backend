@@ -7,7 +7,7 @@ var get_db_engine = function (callback) {
 };
 
 var load_device_by_mac = function (mac, callback) {
-    database.SelectFrom ("tbZarizeni", "*", null, "where mac_adress = '" + mac + "'", function (data) {
+    database.SelectFrom ("tbDevice", "*", null, "where mac_adress = '" + mac + "'", function (data) {
         console.log("Dotaz na mac adresu dokončen.");
         //console.log(data);
         callback(data);
@@ -16,13 +16,15 @@ var load_device_by_mac = function (mac, callback) {
 
 var device_exists = function (mac, callback) {
     load_device_by_mac(mac, function (data) {
-        console.log(data);
+        console.log(data.length);
         if (data.length == 0)
         {
+            console.log("exist: " + false)
             callback(false);
         }
         else
         {
+            console.log("exist: " + true);
             callback(true);
         }
     });
@@ -32,7 +34,7 @@ var device_exists = function (mac, callback) {
 
 var create_new_device_from_mac = function (mac, socket_id, platform, callback) {
     console.log("Zapisuji do databáze nové zařízení");
-    database.InsertInto("tbZarizeni", ["mac_adress", "enabled", "last_online", "first_socket_id", "platform"], [mac, 0, new Date().toISOString().slice(0, 19).replace('T', ' '), socket_id, platform], function (data) {
+    database.InsertInto("tbDevice", ["mac_adress", "enabled", "last_online", "first_socket_id", "platform"], [mac, 0, new Date().toISOString().slice(0, 19).replace('T', ' '), socket_id, platform], function (data) {
         //console.log(data);
         callback(data);
         console.log("Zapisuji zařízení: " + data.insertId);

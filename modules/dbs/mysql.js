@@ -62,8 +62,19 @@ var select_from = function (tbName, what, join, where, callback) {
     });
 };
 
+var raw_query = function (sql, callback) {
+    console.log("warning: To prevent errors in database, please try to avoid using raw_query()");
+    config.GetConnection(function (connection) {
+        connection.query(sql, function (error, results, fields) {
+            callback(results);
+            connection.release();
+        });
+    });
+}
+
 exports.InsertInto = insert_into;
 exports.SelectFrom = select_from;
+exports.RawQuery = raw_query;
 /*
  insert_into("user", ["id", "name", "pass"], [1, "rokamis", "123456"], function (data) {
 

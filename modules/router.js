@@ -33,6 +33,130 @@ app.get('/', function (req, res) {
     res.json({"status": "ok"});
 });
 
+
+app.post('/devices', function (req, res) {
+    var id = req.body.id;
+    var token = req.body.token;
+
+    require(appRoot + "/modules/api/security.js").CheckToken(token, id, function (data) {
+        if (data)
+        {
+            require(appRoot+"/modules/database.js").GetDbEngine(function (db) {
+                db.RawQuery("select d.*, dg.name as 'group' from tbDevice d inner join tbDevicesGroups dsg on dsg.device_id = d.id inner join tbDeviceGroup dg on dsg.group_id = dg.id", function (data) {
+                    if (data.length != 0)
+                    {
+                        console.log(data);
+                        res.json(data);
+                    }
+                });
+            });
+        }
+        else
+        {
+            res.json({"error": true, "desc": "invalid token"});
+        }
+    })
+
+});
+
+app.post('/locations', function (req, res) {
+    var id = req.body.id;
+    var token = req.body.token;
+
+    require(appRoot + "/modules/api/security.js").CheckToken(token, id, function (data) {
+        if (data)
+        {
+            require(appRoot+"/modules/database.js").GetDbEngine(function (db) {
+                db.SelectFrom("tbBackupLocation", "*", null, null, function (data) {
+                    res.json(data);
+                });
+            });
+        }
+        else
+        {
+            res.json({"error": true, "desc": "invalid token"});
+        }
+    })
+
+});
+
+app.post('/clients', function (req, res) {
+    var id = req.body.id;
+    var token = req.body.token;
+
+    require(appRoot + "/modules/api/security.js").CheckToken(token, id, function (data) {
+        if (data)
+        {
+            var data = {};
+            for (var i = 0; i < clients.length; i++)
+            {
+                data[i] = clients[i].id
+            }
+            res.json(data);
+        }
+        else
+        {
+            res.json({"error": true, "desc": "invalid token"});
+        }
+    })
+
+});
+
+app.post('/clients/backup', function (req, res) {
+    var id = req.body.id;
+    var token = req.body.token;
+    var path = req.body.path;
+
+    if (path == undefined) {res.json({"done": false, "error": true});return;}
+    if (path == null) {res.json({"done": false, "error": true});return;}
+
+    require(appRoot + "/modules/api/security.js").CheckToken(token, id, function (data) {
+        if (data)
+        {
+            var data = {};
+            for (var i = 0; i < clients.length; i++)
+            {
+                data[i] = clients[i].emit('backup', { path: path, "type": "disk" });
+            }
+            res.json({"done": true, "error": false});
+        }
+        else
+        {
+            res.json({"error": true, "desc": "invalid token"});
+        }
+    })
+
+});
+
+
+app.post('/locations/new', function (req, res) {
+    var id = req.body.id;
+    var token = req.body.token;
+
+    var name = req.body.name;
+    var url = req.body.url;
+    var user = req.body.user;
+    var pass = req.body.pass;
+
+    require(appRoot + "/modules/api/security.js").CheckToken(token, id, function (data) {
+        if (data)
+        {
+            require(appRoot+"/modules/database.js").GetDbEngine(function (db) {
+                db.InsertInto("tbBackupLocation", ["name", "url", "login", "pass"], [name, url, user, pass], function (data) {
+                    res.json({"error": false, "done": true});
+                });
+            });
+        }
+        else
+        {
+            res.json({"error": true, "desc": "invalid token"});
+        }
+    })
+
+
+
+});
+
 app.post('/check',function(req,res) {
     var token = req.body.token;
     require(appRoot+"/modules/database.js").GetDbEngine(function (db) {
@@ -78,7 +202,7 @@ app.post('/auth',function(req,res){
                                         "error": false,
                                         "token": data,
                                         "expire": expiry,
-                                        "issued_for": id,
+                                        "issued_for": user_id,
                                         "issued_by": require(appRoot + "/config.json").server_id
                                     });
                                     console.log(result);

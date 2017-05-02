@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zalohovac - devices</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="stylesheet" type="text/css" href="./assets/css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/flat-admin.css">
+
+    <!-- Theme -->
+    <link rel="stylesheet" type="text/css" href="./assets/css/theme/blue-sky.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/theme/blue.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/theme/red.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/theme/yellow.css">
+
+
+
+</head>
+<body>
+<div id="app" class="app app-default" style="">
+
+    <aside class="app-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a class="sidebar-brand" href="#"><span class="highlight">Zalohovac</span> Devices</a>
+            <button type="button" class="sidebar-toggle">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="sidebar-nav">
+                <li class="@@menu.index">
+                    <a href="./index.html">
+                        <div class="icon">
+                            <i class="fa fa-database" aria-hidden="true"></i>
+                        </div>
+                        <div class="title">Dashboard</div>
+                    </a>
+                </li>
+                <li class="@@menu.locations">
+                    <a href="./locations.html">
+                        <div class="icon">
+                            <i class="fa fa-tasks" aria-hidden="true"></i>
+                        </div>
+                        <div class="title">Backup locations</div>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="./devices.html">
+                        <div class="icon">
+                            <i class="fa fa-desktop" aria-hidden="true"></i>
+                        </div>
+                        <div class="title">Devices</div>
+                    </a>
+                </li>
+                <!--
+                <li class="@@menu.messaging">
+                    <a href="./messaging.html">
+                        <div class="icon">
+                            <i class="fa fa-comments" aria-hidden="true"></i>
+                        </div>
+                        <div class="title">Notification</div>
+                    </a>
+                </li>
+
+                <li class="dropdown ">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="icon">
+                            <i class="fa fa-cube" aria-hidden="true"></i>
+                        </div>
+                        <div class="title">UI Kits</div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <ul>
+                            <li class="section"><i class="fa fa-file-o" aria-hidden="true"></i> UI Kits</li>
+                            <li><a href="./uikits/customize.html">Customize</a></li>
+                            <li><a href="./uikits/components.html">Components</a></li>
+                            <li><a href="./uikits/card.html">Card</a></li>
+                            <li><a href="./uikits/form.html">Form</a></li>
+                            <li><a href="./uikits/table.html">Table</a></li>
+                            <li><a href="./uikits/icons.html">Icons</a></li>
+                            <li class="line"></li>
+                            <li class="section"><i class="fa fa-file-o" aria-hidden="true"></i> Advanced Components</li>
+                            <li><a href="./uikits/pricing-table.html">Pricing Table</a></li>
+                            <li><a href="./uikits/chart.html">Chart</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="icon">
+                            <i class="fa fa-file-o" aria-hidden="true"></i>
+                        </div>
+                        <div class="title">Pages</div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <ul>
+                            <li class="section"><i class="fa fa-file-o" aria-hidden="true"></i> Admin</li>
+                            <li><a href="./pages/form.html">Form</a></li>
+                            <li><a href="./pages/profile.html">Profile</a></li>
+                            <li><a href="./pages/search.html">Search</a></li>
+                            <li class="line"></li>
+                            <li class="section"><i class="fa fa-file-o" aria-hidden="true"></i> Landing</li>
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="./pages/register.html">Register</a></li>
+                        </ul>
+                    </div>
+                </li>
+                -->
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <ul class="menu">
+                <li>
+                    <a href="/" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div id="app" class="app-container">
+
+        <nav class="navbar navbar-default" id="navbar">
+            <div class="container-fluid">
+                <div class="navbar-collapse collapse in">
+                    <ul class="nav navbar-nav navbar-mobile">
+                        <li>
+                            <button type="button" class="sidebar-toggle">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                        </li>
+                        <li class="logo">
+                            <a class="navbar-brand" href="#"><span class="highlight">Zalohovac</span> Admin</a>
+                        </li>
+                        <li>
+                            <button type="button" class="navbar-toggle">
+                                <img class="profile-img" src="./assets/images/user.png">
+                            </button>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-left">
+                        <li class="navbar-title">Devices</li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li class="dropdown notification danger" style="padding: 10px;">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <div class="icon"><i class="fa fa-bell" aria-hidden="true"></i></div>
+                                <div class="title">System Notifications</div>
+                                <div class="count">10</div>
+                            </a>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li class="dropdown-header">Notification</li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="badge badge-danger pull-right">8</span>
+                                            <div class="message">
+                                                <div class="content">
+                                                    <div class="title">New Order</div>
+                                                    <div class="description">$400 total</div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="badge badge-danger pull-right">14</span>
+                                            Inbox
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="badge badge-danger pull-right">5</span>
+                                            Issues Report
+                                        </a>
+                                    </li>
+                                    <li class="dropdown-footer">
+                                        <a href="#">View All <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="btn-floating" id="help-actions">
+            <div class="btn-bg"></div>
+            <button type="button" class="btn btn-default btn-toggle" data-toggle="toggle" data-target="#help-actions">
+                <i class="icon fa fa-plus"></i>
+                <span class="help-text">Shortcut</span>
+            </button>
+            <div class="toggle-content">
+                <ul class="actions">
+                    <li><a href="#"><i class="icon fa fa-circle-o-notch fa-spin"></i> New backup</a></li>
+                    <li><a href="#">Reverse backup</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PAGE CONTENT -->
+
+
+        <!--
+        <div class="col-xs-12">
+            <div class="card">
+                <div class="card-header">
+                    All registered devices
+                </div>
+                <div class="card-body no-padding">
+                    <table class="table table-striped primary" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Mac adress</th>
+                                <th>Last Online</th>
+                                <th>Platform</th>
+                                <th>First ID</th>
+                                <th>Group</th>
+                                <th>Enabled</th>
+                            </tr>
+                        </thead>
+                        <tbody id="devices">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        -->
+
+        <!-- Responsive table starts here -->
+        <!-- For correct display on small screens you must add 'data-title' to each 'td' in your table -->
+        <div class="table-responsive-vertical shadow-z-1">
+            <!-- Table starts here -->
+            <table id="table" class="table table-hover table-mc-light-blue">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Mac adress</th>
+                    <th>Last Online</th>
+                    <th>Platform</th>
+                    <th>First ID</th>
+                    <th>Group</th>
+                    <th>Enabled</th>
+                </tr>
+                </thead>
+                <tbody id="devices">
+
+                </tbody>
+            </table>
+        </div>
+
+            <!-- -->
+
+            <footer class="app-footer">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="footer-copyright">
+                            <br>
+                            <br>
+                            (c)2017 Zalohovac
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+    </div>
+
+
+
+    <!-- Security -->
+    <script type="text/javascript" src="./assets/js/jquery.js"></script>
+    <script type="text/javascript" src="./assets/js/alert.js"></script>
+    <script type="text/javascript" src="./assets/js/store.js"></script>
+    <script type="text/javascript" src="./assets/js/api.js"></script>
+    <script type="text/javascript" src="./assets/js/moment.js"></script>
+
+    <script type="text/javascript" src="./assets/js/vendor.js"></script>
+
+    <script type="text/javascript" src="./assets/js/app.js"></script>
+    <script type="text/javascript" src="./assets/js/index.js"></script>
+
+    <script>
+        CheckTokenValidity();
+        RenderDeviceTable();
+    </script>
+
+
+</body>
+</html>

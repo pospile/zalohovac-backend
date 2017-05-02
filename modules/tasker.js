@@ -43,6 +43,41 @@ db.GetDbEngine(function (db) {
     });
 });
 
+db.GetDbEngine(function (db) {
+    db.SelectFrom("tbBackupLocation", "*", null,null,function (data) {
+        console.log(data.length);
+        for (var i = 0; i < data.length; i++)
+        {
+            console.log("Kontroluji backup lokaci #" + i);
+            console.log("only ftp supported at this moment, skip other possibilities");
+
+            if (data[i].enabled == 1)
+            {
+                /*
+                console.log("Lokace je aktivní");
+                var Client = require('ftp');
+
+                var c = new Client();
+                c.on('ready', function() {
+                    c.list(function(err, list) {
+                        if (err) throw err;
+                        //console.dir(list);
+                        c.end();
+                    });
+                });
+                // connect to localhost:21 as anonymous
+                c.connect({"host": data[i].url, "user": data[i].login, "password": data[i].pass});
+                */
+            }
+            else
+            {
+                console.log("lokace #" + i + " není označena jako aktivní");
+            }
+
+        }
+    });
+});
+
 
 var check_cron = function (cron_string, callback) {
     console.log("Kontroluji cron-job.")

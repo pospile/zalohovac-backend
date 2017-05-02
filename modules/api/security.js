@@ -48,7 +48,31 @@ var GenerateTokenFromID = function (unique_id, expiry, callback) {
     callback(token);
 };
 
-
+var CheckToken = function (token, issue, callback) {
+    console.log("Procházím databázi pro kontrolu tokenu");
+    require(appRoot + "/modules/database.js").GetDbEngine(function (db) {
+       db.SelectFrom("tbToken", "*", null, "where token="+"'"+token+"'", function (data) {
+          if (data.length != 0)
+          {
+              console.log("Token byl nalezen")
+              if (data[0].user_id == issue)
+              {
+                  callback(true);
+              }
+              else
+              {
+                  console.log("Token a vystavovatel nesedí");
+                  callback(false);
+              }
+          }
+          else
+          {
+              console.log("Token nenalezen");
+              callback(false);
+          }
+       });
+    });
+};
 
 /*
  Create user in database (at least customer account should already exists)
@@ -110,3 +134,4 @@ exports.CreateToken = CreateDeviceToken;
 exports.CreateNewHashForUser = CreateNewHashForUser;
 exports.CheckHashForUser = CheckHashForUser;
 exports.GenerateTokenFromID = GenerateTokenFromID;
+exports.CheckToken = CheckToken;

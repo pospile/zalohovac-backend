@@ -7,7 +7,14 @@ console.log("Socket api is running on 2579");
 
 var db = require(appRoot + "/modules/database.js");
 
+
+global.clients = [];
+
+
 io.on('connection', function (socket) {
+
+    clients.push(socket);
+
     console.log("Klient " + socket.id + " pripojen");
     socket.emit('init', { reset: socket.id });
 
@@ -54,7 +61,7 @@ io.on('connection', function (socket) {
                         {
                             console.log("zařízení existuje, hledám token")
                             db.GetDbEngine(function (db) {
-                                db.SelectFrom ("tbZarizeni", "*", null, "where mac_adress = '" + mac + "'", function (data) {
+                                db.SelectFrom ("tbDevice", "*", null, "where mac_adress = '" + mac + "'", function (data) {
                                     var device = data;
                                     console.log("zarizeni a jeho id:");
                                     console.log("---------------------");
@@ -74,7 +81,7 @@ io.on('connection', function (socket) {
                                     else
                                     {
                                         console.log("Součástí požadavku není reset token.");
-                                        socket.emit("auth", {"error": true, "init": false, "token": "token access denied", "device": mac, "platform": "android", "desc": "token cannot be send if no first session id is provided (security reason)"});
+                                        socket.emit("auth", {"error": true, "init": false, "desc": "token access denied", "device": mac, "platform": "android"});
                                     }
                                     console.log("data odeslana");
                                     });
@@ -90,7 +97,7 @@ io.on('connection', function (socket) {
                                 console.log("Provádím select na vytvořené id");
                                 db.GetDbEngine(function (db) {
                                     var updated = data.insertId;
-                                    db.SelectFrom ("tbZarizeni", "*", null, "where id = '" + data.insertId + "'", function (data) {
+                                    db.SelectFrom ("tbDevice", "*", null, "where id = '" + data.insertId + "'", function (data) {
                                         console.log("Dotaz na id zařízení dokončen.");
                                         console.log(data);
                                         require(appRoot+"/modules/api/security.js").CreateToken(data[0].id, data[0].mac_adress, data[0].first_socket_id, function (token) {

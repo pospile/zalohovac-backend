@@ -35,4 +35,4 @@ new CronJob('* * * * * *', function() {
 
 require("./modules/router.js");
 require("./modules/tasker.js");
-//require("./modules/socket.js");
+require("./modules/socket.js");

@@ -1,3 +1,6 @@
+
+alertify.parent($("#app"));
+
 function GetToken() {
     return store.get("token");
 }
@@ -8,7 +11,7 @@ function TokenExpireIn() {
 
 var CheckTokenValidity = function (callback) {
 
-    $("#app").hide();
+    //$("#app").hide();
 
     if (!store.get("check"))
     {
@@ -32,6 +35,9 @@ var CheckTokenValidity = function (callback) {
                 {
                     force_logout();
                 }
+            })
+            .fail(function() {
+                alert( "error, please try again" );
             });
     }
     if (store.get("check") == 5)
@@ -57,7 +63,8 @@ var CheckTokenValidity = function (callback) {
         else
         {
             console.log("User accepted, redirect not neccessary now.");
-            $("#app").show();
+            //callback(true);
+            //$("#app").show();
         }
     }
     else
@@ -68,7 +75,8 @@ var CheckTokenValidity = function (callback) {
 
 };
 
-var SetNewTokenAndExpiration = function (token, expiration) {
+var SetNewTokenAndExpiration = function (id, token, expiration) {
+    store.set("user", id);
     store.set("token", token);
     store.set("expire", expiration);
 };
@@ -104,7 +112,7 @@ var login = function (name, pass) {
             if (!data.error)
             {
                 console.log(data);
-                SetNewTokenAndExpiration(data.token, Date.parse(data.expire));
+                SetNewTokenAndExpiration(data.issued_for, data.token, Date.parse(data.expire));
                 show_timeout = false;
                 window.location.replace("./index.html");
             }
@@ -155,3 +163,45 @@ var GetMessage = function (callback) {
     }
     callback(params.code);
 };
+
+var RenderDeviceTable = function () {
+    $("#devices").html("");
+    $.post( "http://localhost:3000/devices", {"id": store.get("user"), "token": store.get("token")})
+        .done(function( data ) {
+            console.log(data);
+            if (data.length != 0)
+            {
+                console.log("valid data");
+                for (var i = 0; i < data.length; i++)
+                {
+                    var html_row = '<tr><td data-title="ID">'+data[i].id+'</td><td data-title="mac">'+data[i].mac_adress+'</td><td data-title="last online">'+moment(data[i].last_online).format()+'</td><td data-title="platform">'+data[i].platform+'</td><td data-title="reset id">'+data[i].first_socket_id.substring(0,6)+"..."+'</td><td data-title="group">'+data[i].group+'</td><td data-title="enabled">'+data[i].enabled+'</td></tr>'
+                    $("#devices").append(html_row);
+                }
+            }
+        });
+};
+
+var RenderLocationsTable = function (hide) {
+    if (hide) {$("#success").hide();}
+    $("#locations").html("");
+    $.post( "http://localhost:3000/locations", {"id": store.get("user"), "token": store.get("token")})
+        .done(function( data ) {
+            console.log(data);
+            if (data.length != 0)
+            {
+                for (var i = 0; i < data.length; i++)
+                {
+                    var html_row = '<tr> <th scope="row">'+data[i].id+'</th> <td>'+data[i].name+'</td> <td>'+data[i].url+'</td> <td>'+data[i].login+'</td><td>(hidden)</td><td>'+data[i].enabled+'</td></tr>'
+                    $("#locations").append(html_row);
+                }
+            }
+        });
+};
+
+var NewLocation = function () {
+    $.post( "http://localhost:3000/locations/new", {"id": store.get("user"), "token": store.get("token"), "name": $("#name").val(), "url": $("#url").val(), "user": $("#login").val(), "pass": $("#pass").val()})
+        .done(function( data ) {
+            $("#success").show();
+            RenderLocationsTable();
+        });
+}

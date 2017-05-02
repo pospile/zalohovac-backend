@@ -7,7 +7,7 @@
       {
 
       },
-      "files": ["vlc.exe", "library.dll"]
+      "?files": ["vlc.exe", "library.dll"]
     },
     "program_files(x86)":
     {
@@ -15,5 +15,11 @@
     },
     "files": []
   },
-  "files": []
+  "files": [],
+
+  "jinejsoubor":
+  {
+    "path": "c://vlc/bin",
+    "filter": ["*.*", "*", "/docs/", "?/docs"]
+  }
 }
