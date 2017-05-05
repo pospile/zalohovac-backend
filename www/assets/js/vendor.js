@@ -36189,7 +36189,14 @@ var Chartist = {
     });
 
     // Create the first chart
-    this.createChart(this.optionsProvider.getCurrentOptions());
+  try {
+      this.createChart(this.optionsProvider.getCurrentOptions());
+  }
+  catch (err)
+  {
+      console.log("njn");
+  }
+
 
     // As chart is initialized from the event loop now we can reset our timeout reference
     // This is important if the chart gets initialized on the same element twice

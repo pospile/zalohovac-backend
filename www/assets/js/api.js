@@ -1,5 +1,15 @@
 
-alertify.parent($("#app"));
+//alertify.parent($("#app"));
+
+function BroadCastBackup(path) {
+    $.post( "http://localhost:3000/clients/backup", {"id": store.get("user"), "token": store.get("token"), "path": path})
+        .done(function( data ) {
+            console.log(data);
+            alertify.log("Backup in progress...");
+        });
+    return true;
+}
+
 
 function GetToken() {
     return store.get("token");
@@ -63,6 +73,10 @@ var CheckTokenValidity = function (callback) {
         else
         {
             console.log("User accepted, redirect not neccessary now.");
+            if (callback != undefined && callback != null)
+            {
+                callback(true);
+            }
             //callback(true);
             //$("#app").show();
         }
@@ -204,4 +218,10 @@ var NewLocation = function () {
             $("#success").show();
             RenderLocationsTable();
         });
+}
+
+var PrepareBackUp = function () {
+    var result = window.prompt("Please enter path for backup:","C://");
+    console.log(result);
+    BroadCastBackup(result);
 }

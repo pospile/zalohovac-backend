@@ -83,22 +83,10 @@
 
     <script>
 
-        if (store.get("token") != null || store.get("token") != undefined)
-        {
-            CheckTokenValidity(function (data) {
-                console.log(data);
-                if (data == true)
-                {
-                    window.location.replace("./index.html");
-                }
-            });
-        }
-
-        GetMessage(function (data) {});
-        $( "#login" ).click(function() {
-            console.log($("#name").val() + " " + $("#pass").val());
-            login($("#name").val(), $("#pass").val());
-        });
+        CheckTokenValidity(function (data) {
+            console.log(data);
+            window.location.replace("./index.html");
+        })
 
     </script>
 

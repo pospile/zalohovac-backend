@@ -141,4 +141,20 @@ io.on('connection', function (socket) {
         }
     });
 
+    socket.on('disconnect', function () {
+
+        console.log("Client #" + socket.id + " disconnected");
+        for (var i = 0; i < clients.length; i++)
+        {
+            console.log(clients[i].id);
+            if (socket.id == clients[i].id)
+            {
+                clients.splice(i, 1);
+                console.log("Disconnection potvrzen");
+            }
+        }
+
+    });
+
+
 });
