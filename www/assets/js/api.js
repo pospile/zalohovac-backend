@@ -1,8 +1,20 @@
 
 //alertify.parent($("#app"));
 
+var prod = true;
+var url = "";
+if (prod)
+{
+    url = "http://138.68.67.174:3000"
+}
+else
+{
+   url = "http://localhost:3000"
+}
+
+
 function BroadCastBackup(path) {
-    $.post( "http://localhost:3000/clients/backup", {"id": store.get("user"), "token": store.get("token"), "path": path})
+    $.post( url+"/clients/backup", {"id": store.get("user"), "token": store.get("token"), "path": path})
         .done(function( data ) {
             console.log(data);
             alertify.log("Backup in progress...");
@@ -34,7 +46,7 @@ var CheckTokenValidity = function (callback) {
     if (store.get("check") > 9)
     {
         console.log("Validate check for token");
-        $.post( "http://localhost:3000/check", { token: store.get("token") })
+        $.post( url+"/check", { token: store.get("token") })
             .done(function( data ) {
                 if (data.valid)
                 {
@@ -120,7 +132,7 @@ var login = function (name, pass) {
     var time = setTimeout(function () {
         if(show_timeout){ alertify.error("Error while logging in, please wait for a while and try again."); }
     }, 3000);
-    $.post( "http://localhost:3000/auth", { user: name, pass: pass, id: guid() })
+    $.post( url+"/auth", { user: name, pass: pass, id: guid() })
         .done(function( data ) {
             clearTimeout(time);
             if (!data.error)
@@ -180,7 +192,7 @@ var GetMessage = function (callback) {
 
 var RenderDeviceTable = function () {
     $("#devices").html("");
-    $.post( "http://localhost:3000/devices", {"id": store.get("user"), "token": store.get("token")})
+    $.post(url+"/devices", {"id": store.get("user"), "token": store.get("token")})
         .done(function( data ) {
             console.log(data);
             if (data.length != 0)
@@ -198,7 +210,7 @@ var RenderDeviceTable = function () {
 var RenderLocationsTable = function (hide) {
     if (hide) {$("#success").hide();}
     $("#locations").html("");
-    $.post( "http://localhost:3000/locations", {"id": store.get("user"), "token": store.get("token")})
+    $.post( url+"/locations", {"id": store.get("user"), "token": store.get("token")})
         .done(function( data ) {
             console.log(data);
             if (data.length != 0)
@@ -213,7 +225,7 @@ var RenderLocationsTable = function (hide) {
 };
 
 var NewLocation = function () {
-    $.post( "http://localhost:3000/locations/new", {"id": store.get("user"), "token": store.get("token"), "name": $("#name").val(), "url": $("#url").val(), "user": $("#login").val(), "pass": $("#pass").val()})
+    $.post( url+"/locations/new", {"id": store.get("user"), "token": store.get("token"), "name": $("#name").val(), "url": $("#url").val(), "user": $("#login").val(), "pass": $("#pass").val()})
         .done(function( data ) {
             $("#success").show();
             RenderLocationsTable();

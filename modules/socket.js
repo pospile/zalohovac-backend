@@ -127,6 +127,11 @@ io.on('connection', function (socket) {
 
     });
 
+    socket.on('backup', function (data) {
+        console.log(data);
+        console.log("Zaloha od: " + socket.id + " potvrzena");
+    });
+
     socket.on('zaloha-manual', function (data) {
         console.log(data);
         if (data.token != undefined) {
