@@ -1,7 +1,8 @@
 
 //alertify.parent($("#app"));
+alertify.logPosition("bottom left");
 
-var prod = true;
+var prod = false;
 var url = "";
 if (prod)
 {
@@ -190,21 +191,48 @@ var GetMessage = function (callback) {
     callback(params.code);
 };
 
-var RenderDeviceTable = function () {
-    $("#devices").html("");
-    $.post(url+"/devices", {"id": store.get("user"), "token": store.get("token")})
-        .done(function( data ) {
-            console.log(data);
-            if (data.length != 0)
-            {
-                console.log("valid data");
-                for (var i = 0; i < data.length; i++)
+var ReLocate = function (id) {
+    window.location.replace("./devices.html?id="+id);
+};
+
+var RenderDevicePage = function () {
+
+    var params = {};
+
+    if (location.search) {
+        var parts = location.search.substring(1).split('&');
+
+        for (var i = 0; i < parts.length; i++) {
+            var nv = parts[i].split('=');
+            if (!nv[0]) continue;
+            params[nv[0]] = nv[1] || true;
+        }
+    }
+
+    if (params.id == null)
+    {
+        alertify.error("Show page for id selection.");
+        $("#devices").html("");
+        $.post(url+"/devices", {"id": store.get("user"), "token": store.get("token")})
+            .done(function( data ) {
+                console.log(data);
+                if (data.length != 0)
                 {
-                    var html_row = '<tr><td data-title="ID">'+data[i].id+'</td><td data-title="mac">'+data[i].mac_adress+'</td><td data-title="last online">'+moment(data[i].last_online).format()+'</td><td data-title="platform">'+data[i].platform+'</td><td data-title="reset id">'+data[i].first_socket_id.substring(0,6)+"..."+'</td><td data-title="group">'+data[i].group+'</td><td data-title="enabled">'+data[i].enabled+'</td></tr>'
-                    $("#devices").append(html_row);
+                    console.log("valid data");
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        var html_row = '<tr onclick="ReLocate('+data[i].id+')"><td data-title="ID">'+data[i].id+'</td><td data-title="mac">'+data[i].mac_adress+'</td><td data-title="last online">'+moment(data[i].last_online).format()+'</td><td data-title="platform">'+data[i].platform+'</td><td data-title="reset id">'+data[i].first_socket_id.substring(0,6)+"..."+'</td><td data-title="group">'+data[i].group+'</td><td data-title="enabled">'+data[i].enabled+'</td></tr>'
+                        $("#devices").append(html_row);
+                    }
                 }
-            }
-        });
+            });
+    }
+    else
+    {
+        alertify.log("Device with id#" + params.id + " selected");
+    }
+
+
 };
 
 var RenderLocationsTable = function (hide) {
@@ -233,7 +261,22 @@ var NewLocation = function () {
 }
 
 var PrepareBackUp = function () {
-    var result = window.prompt("Please enter path for backup:","C://");
-    console.log(result);
-    BroadCastBackup(result);
+
+
+    alertify
+        .defaultValue("C://")
+        .prompt("Enter backup path:",
+            function (val, ev) {
+
+                // The click event is in the event variable, so you can use it here.
+                ev.preventDefault();
+
+                // The value entered is availble in the val variable.
+                alertify.success("You've clicked OK and typed: " + val);
+
+                BroadCastBackup(val);
+
+            });
+
+
 }

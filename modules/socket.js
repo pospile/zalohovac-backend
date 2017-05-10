@@ -1,6 +1,7 @@
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+const notifier = require('node-notifier');
 
 server.listen(2579);
 console.log("Socket api is running on 2579");
@@ -12,6 +13,11 @@ global.clients = [];
 
 
 io.on('connection', function (socket) {
+
+    notifier.notify({
+        'title': 'New connection',
+        'message': 'client:' + socket.id + ' connected'
+    });
 
     clients.push(socket);
 

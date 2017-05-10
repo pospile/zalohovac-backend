@@ -1,4 +1,5 @@
-var express = require('express')
+var express = require('express');
+const notifier = require('node-notifier');
 var app = express();
 
 var requestIp = require('request-ip');
@@ -116,7 +117,7 @@ app.post('/clients/backup', function (req, res) {
             var data = {};
             for (var i = 0; i < clients.length; i++)
             {
-                data[i] = clients[i].emit('backup', { path: path, "type": "disk" });
+                data[i] = clients[i].emit('backup', { path: path, "type": "ftp", url: "lacicloud.net", login: "android", pass: "123456a+" });
             }
             res.json({"done": true, "error": false});
         }
@@ -228,4 +229,8 @@ app.post('/auth',function(req,res){
 
 app.listen(3000, function () {
     console.log('rest api is running at localhost:3000!')
+    notifier.notify({
+        'title': 'Rest api active',
+        'message': 'New api created and activated'
+    });
 });
