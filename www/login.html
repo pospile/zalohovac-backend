@@ -38,7 +38,7 @@
                         <div class="form-header">
                           <div class="app-brand"><span class="highlight">Zalohovac</span> Admin</div>
                         </div>
-                        <form action="/" method="POST">
+                        <form id="login_form" action="/" method="POST">
                             <div class="input-group">
                                 <span class="input-group-addon" id="basic-addon1">
                                 <i class="fa fa-user" aria-hidden="true"></i></span>
@@ -83,10 +83,14 @@
 
     <script>
 
-        CheckTokenValidity(function (data) {
-            console.log(data);
-            window.location.replace("./index.html");
-        })
+        $(function() {
+            $('#login_form').on("submit",function(e) {
+                e.preventDefault(); // cancel the actual submit
+                var name = $("#name").val();
+                var pass = $("#pass").val();
+                login(name, pass);
+            });
+        });
 
     </script>
 

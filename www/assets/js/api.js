@@ -1,6 +1,6 @@
 
 //alertify.parent($("#app"));
-alertify.logPosition("bottom left");
+alertify.logPosition("top right");
 
 var prod = false;
 var url = "";
@@ -148,7 +148,7 @@ var login = function (name, pass) {
                 alertify.error("Login invalid, please try again");
             }
         });
-    alertify.log("Logging into Zalohovac, please wait.");
+    alertify.log("Processing your login request...");
 };
 
 

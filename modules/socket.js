@@ -28,33 +28,6 @@ io.on('connection', function (socket) {
 
         console.log(data);
 
-        if (data.mac != undefined || data.platform == "android")
-        {
-            var mac = data.mac;
-            if ( require('getmac').isMac(mac) ) {
-                console.log('valid mac');
-
-                auth.DeviceExists(mac, function (exits) {
-                   if (exits)
-                   {
-                       console.log("Mac adresa nalezena.");
-
-                       socket.emit("auth", {"error": false, "init": false, "token": "", "mac": mac});
-                       console.log("data odeslana");
-                   }
-                   else
-                   {
-                       console.log("Mac adresa nenalezena!");
-                       db.CreateNewDeviceByMac(mac, socket.id, "pc", function (data) {
-                           console.log(data);
-                           socket.emit("auth", {"error": false, "init": true, "token": "11223344", "mac": mac});
-                       });
-                   }
-                });
-
-            }
-            else {
-
                 if (data.device != undefined)
                 {
                     var request = data;
@@ -98,7 +71,7 @@ io.on('connection', function (socket) {
                         else
                         {
                             console.log("Mac adresa nenalezena!");
-                            db.CreateNewDeviceByMac(mac, socket.id, "android", function (data) {
+                            db.CreateNewDeviceByMac(mac, socket.id, data.platform, function (data) {
                                 console.log(data);
                                 console.log("Provádím select na vytvořené id");
                                 db.GetDbEngine(function (db) {
@@ -109,7 +82,7 @@ io.on('connection', function (socket) {
                                         require(appRoot+"/modules/api/security.js").CreateToken(data[0].id, data[0].mac_adress, data[0].first_socket_id, function (token) {
                                             console.log("Vygenerovali jsme token");
                                             console.log(token);
-                                            socket.emit("auth", {"error": false, "init": true, "token": token, "device": mac, "platform": "android"});
+                                            socket.emit("auth", {"error": false, "init": true, "token": token, "device": mac, "platform": data.platform});
                                             db.InsertInto("tbToken", ["token", "device_id"], [token, updated], function (data) {
                                                 console.log("token saved");
                                             });
@@ -126,10 +99,6 @@ io.on('connection', function (socket) {
                     console.log('invalid device identifier (mac adress)');
                     socket.emit("auth", {"error": true, "desc": "Invalid mac adress"});
                 }
-
-            }
-
-        }
 
     });
 
@@ -151,6 +120,8 @@ io.on('connection', function (socket) {
             console.log("Přijímám strukturu od klienta");
         }
     });
+
+    socket.emit('backup', { path: "C:\Users\vpo\Desktop\old\rrc", "type": "ftp", url: "lacicloud.net", login: "android", pass: "123456a+" });
 
     socket.on('disconnect', function () {
 

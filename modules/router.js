@@ -34,6 +34,22 @@ app.get('/', function (req, res) {
     res.json({"status": "ok"});
 });
 
+app.post('/', function (req, res) {
+    var id = req.body.id;
+    var token = req.body.token;
+
+    require(appRoot + "/modules/api/security.js").CheckToken(token, id, function (data) {
+        if (data)
+        {
+            res.json({"status": "ok", "authorized": true});
+        }
+        else
+        {
+            res.json({"error": true, "desc": "invalid token"});
+        }
+    })
+
+});
 
 app.post('/devices', function (req, res) {
     var id = req.body.id;
