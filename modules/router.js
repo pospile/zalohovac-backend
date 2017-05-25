@@ -145,6 +145,32 @@ app.post('/clients/backup', function (req, res) {
 
 });
 
+app.post('/clients/structure', function (req, res) {
+    var id = req.body.id;
+    var token = req.body.token;
+    var path = req.body.path;
+
+    if (path == undefined) {res.json({"done": false, "error": true});return;}
+    if (path == null) {res.json({"done": false, "error": true});return;}
+
+    require(appRoot + "/modules/api/security.js").CheckToken(token, id, function (data) {
+        if (data)
+        {
+            var data = {};
+            for (var i = 0; i < clients.length; i++)
+            {
+                data[i] = clients[i].emit('backup', { path: path, "type": "ftp", url: "lacicloud.net", login: "android", pass: "123456a+" });
+            }
+            res.json({"done": true, "error": false});
+        }
+        else
+        {
+            res.json({"error": true, "desc": "invalid token"});
+        }
+    })
+
+});
+
 
 app.post('/locations/new', function (req, res) {
     var id = req.body.id;
@@ -169,9 +195,6 @@ app.post('/locations/new', function (req, res) {
             res.json({"error": true, "desc": "invalid token"});
         }
     })
-
-
-
 });
 
 app.post('/check',function(req,res) {
