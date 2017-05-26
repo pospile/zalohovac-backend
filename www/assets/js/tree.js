@@ -1,2 +1,155 @@
-/*! json-tree - v0.2.1 - 2015-07-29 */
-var JSONTree=function(){var a={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#x27;","/":"&#x2F;"},b=0,c=0;this.create=function(a,b){return c+=1,p(f(a,0,!1),{"class":"jstValue"})};var d=function(b){return b.replace(/[&<>'"]/g,function(b){return a[b]})},e=function(){return c+"_"+b++},f=function(a,b,c){if(null===a)return l(c?b:0);var d=typeof a;switch(d){case"boolean":return k(a,c?b:0);case"number":return j(a,c?b:0);case"string":return i(a,c?b:0);default:return a instanceof Array?h(a,b,c):g(a,b,c)}},g=function(a,b,c){var d=e(),f=Object.keys(a).map(function(c){return m(c,a[c],b+1,!0)}).join(o()),g=[r("{",c?b:0,d),p(f,{id:d}),s("}",b)].join("\n");return p(g,{})},h=function(a,b,c){var d=e(),g=a.map(function(a){return f(a,b+1,!0)}).join(o()),h=[r("[",c?b:0,d),p(g,{id:d}),s("]",b)].join("\n");return h},i=function(a,b){return p(t(n(d(a)),b),{"class":"jstStr"})},j=function(a,b){return p(t(a,b),{"class":"jstNum"})},k=function(a,b){return p(t(a,b),{"class":"jstBool"})},l=function(a){return p(t("null",a),{"class":"jstNull"})},m=function(a,b,c){var e=t(n(d(a))+": ",c),g=p(f(b,c,!1),{});return p(e+g,{"class":"jstProperty"})},n=function(a){return'"'+a+'"'},o=function(){return p(",\n",{"class":"jstComma"})},p=function(a,b){return q("span",b,a)},q=function(a,b,c){return"<"+a+Object.keys(b).map(function(a){return" "+a+'="'+b[a]+'"'}).join("")+">"+c+"</"+a+">"},r=function(a,b,c){return p(t(a,b),{"class":"jstBracket"})+p("",{"class":"jstFold",onclick:"JSONTree.toggle('"+c+"')"})};this.toggle=function(a){var b=document.getElementById(a),c=b.parentNode,d=b.previousElementSibling;""===b.className?(b.className="jstHiddenBlock",c.className="jstFolded",d.className="jstExpand"):(b.className="",c.className="",d.className="jstFold")};var s=function(a,b){return p(t(a,b),{})},t=function(a,b){return Array(2*b+1).join(" ")+a};return this}();
+var JSONTree = (function() {
+
+  var escapeMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    '\'': '&#x27;',
+    '/': '&#x2F;'
+  };
+
+  var defaultSettings = {
+    indent: 2
+  };
+
+  var id = 0;
+  var instances = 0;
+
+  this.create = function(data, settings) {
+    instances += 1;
+    return _span(_jsVal(data, 0, false), {class: 'jstValue'});
+  };
+
+  var _escape = function(text) {
+    return text.replace(/[&<>'"]/g, function(c) {
+      return escapeMap[c];
+    });
+  };
+
+  var _id = function() {
+    return instances + '_' + id++;
+  };
+
+  var _jsVal = function(value, depth, indent) {
+    if (value !== null) {
+      var type = typeof value;
+      switch (type) {
+        case 'boolean':
+          return _jsBool(value, indent ? depth : 0);
+        case 'number':
+          return _jsNum(value, indent ? depth : 0);
+        case 'string':
+          return _jsStr(value, indent ? depth : 0);
+        default:
+          if (value instanceof Array) {
+            return _jsArr(value, depth, indent);
+          } else {
+            return _jsObj(value, depth, indent);
+          }
+      }
+    } else {
+      return _jsNull(indent ? depth : 0);
+    }
+  };
+
+  var _jsObj = function(object, depth, indent) {
+    var id = _id();
+    var content = Object.keys(object).map(function(property) {
+      return _property(property, object[property], depth + 1, true);
+    }).join(_comma());
+    var body = [
+      _openBracket('{', indent ? depth : 0, id),
+      _span(content, {id: id}),
+      _closeBracket('}', depth)
+    ].join('\n');
+    return _span(body, {})
+  };
+
+  var _jsArr = function(array, depth, indent) {
+    var id = _id();
+    var body = array.map(function(element) {
+      return _jsVal(element, depth + 1, true);
+    }).join(_comma());
+    var arr = [
+      _openBracket('[', indent ? depth : 0, id),
+      _span(body, {id: id}),
+      _closeBracket(']', depth)
+    ].join('\n');
+    return arr;
+  };
+
+  var _jsStr = function(value, depth) {
+    return _span(_indent(_quote(_escape(value)), depth), {class: 'jstStr'});
+  };
+
+  var _jsNum = function(value, depth) {
+    return _span(_indent(value, depth), {class: 'jstNum'});
+  };
+
+  var _jsBool = function(value, depth) {
+    return _span(_indent(value, depth), {class: 'jstBool'});
+  };
+
+  var _jsNull = function(depth) {
+    return _span(_indent('null', depth), {class: 'jstNull'});
+  };
+
+  var _property = function(name, value, depth) {
+    var property = _indent(_quote(_escape(name)) + ': ', depth);
+    var propertyValue = _span(_jsVal(value, depth, false), {});
+    return _span(property + propertyValue, {class: 'jstProperty'});
+  }
+
+  var _quote = function(value) {
+    return '"' + value + '"';
+  }
+
+  var _comma = function() {
+    return _span(',\n', {class: 'jstComma'});
+  }
+
+  var _span = function(value, attrs) {
+    return _tag('span', attrs, value);
+  }
+
+  var _tag = function(tag, attrs, content) {
+    return '<' + tag + Object.keys(attrs).map(function(attr) {
+          return ' ' + attr + '="' + attrs[attr] + '"';
+        }).join('') + '>' +
+        content +
+        '</' + tag + '>';
+  }
+
+  var _openBracket = function(symbol, depth, id) {
+    return (
+    _span(_indent(symbol, depth), {class: 'jstBracket'}) +
+    _span('', {class: 'jstFold', onclick: 'JSONTree.toggle(\'' + id + '\')'})
+    );
+  }
+
+  this.toggle = function(id) {
+    var element = document.getElementById(id);
+    var parent = element.parentNode;
+    var toggleButton = element.previousElementSibling;
+    if (element.className === '') {
+      element.className = 'jstHiddenBlock';
+      parent.className = 'jstFolded';
+      toggleButton.className = 'jstExpand';
+    } else {
+      element.className = '';
+      parent.className = '';
+      toggleButton.className = 'jstFold';
+    }
+  }
+
+  var _closeBracket = function(symbol, depth) {
+    return _span(_indent(symbol, depth), {});
+  }
+
+  var _indent = function(value, depth) {
+    return Array((depth * 2) + 1).join(' ') + value;
+  };
+
+  return this;
+})();

@@ -156,15 +156,24 @@ app.post('/clients/structure', function (req, res) {
     require(appRoot + "/modules/api/security.js").CheckToken(token, id, function (data) {
         if (data)
         {
+            if (clients.length == 0) {res.json({"done": false, "error": true, "description": "no device able to respond"});return;}
             var data = {};
+            send = true;
             for (var i = 0; i < clients.length; i++)
             {
-                data[i] = clients[i].emit('backup', { path: path, "type": "ftp", url: "lacicloud.net", login: "android", pass: "123456a+" });
+                data[i] = clients[i].emit('path', { "path": path, request: "ID:00"+i });
+                var send = true;
+                clients[i].on("path", function(data){
+                    console.log("Reaguji na prvního kdo mi odeslal tuto strukturu");
+                    console.log(data.structure);
+                    if (send) {res.json(data.structure); send = false;}
+                });
             }
-            res.json({"done": true, "error": false});
+            
         }
         else
         {
+            console.log("Error piče");
             res.json({"error": true, "desc": "invalid token"});
         }
     })

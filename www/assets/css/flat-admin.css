@@ -1774,6 +1774,7 @@ body {
   body .app {
     min-height: 100vh; }
   body .app-container {
+    z-index: 1 !important;
     padding: 0px;
     min-height: 100vh;
     position: relative;
@@ -2926,6 +2927,7 @@ aside.app-sidebar {
     aside.app-sidebar.active {
       transform: translate(0, 0); }
   .app-container.__sidebar {
+    z-index: -1 !important;
     overflow: hidden;
     height: 100vh; }
     .app-container.__sidebar .app-container {

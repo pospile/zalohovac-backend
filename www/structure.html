@@ -187,14 +187,19 @@
 
 <script>
     CheckTokenValidity();
-    
-    $.post( url+"/clients/backup", {"id": store.get("user"), "token": store.get("token"), "path": path})
+
+    $.post( url + "/clients/structure", {"id": store.get("user"), "token": store.get("token"), "path": "C:/projects/zalohovac-windows/backup"})
             .done(function( data ) {
                 console.log(data);
-                alertify.log("Backup in progress...");
+                var result = JSONTree.create(data);
+                $("#page").html(result);
+                console.log("Page rendered");
+                JSONTree.toggle("1_1");
+                setTimeout(function(){
+                    alertify.log("This structure is exact copy of user system, PLEASE <br> be wise and responsible, and Do not abuse it.");
+                }, 800);
             });
 
-    var result = JSONTree.create();
 
 </script>
 
