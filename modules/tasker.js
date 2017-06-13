@@ -7,7 +7,7 @@ console.log("Searching for all tasks and preparing them for execution");
 
 db.GetDbEngine(function (db) {
     db.SelectFrom("tbBackupJob", "*", null,null,function (data) {
-        console.log(data.length);
+        console.log("Počet cron jobů"+data.length);
         for (var i = 0; i < data.length; i++)
         {
             console.log("Obnovuji cron job #" + i);
@@ -21,7 +21,6 @@ db.GetDbEngine(function (db) {
                             cronTime: data[i].cron_time,
                             onTick: function() {
                                 //console.log("Job #"+i + " probiha");
-
                             },
                             start: true
                         });

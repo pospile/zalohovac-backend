@@ -2,7 +2,7 @@
 //alertify.parent($("#app"));
 alertify.logPosition("top right");
 
-var prod = false;
+var prod = true;
 var url = "";
 if (prod)
 {

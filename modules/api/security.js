@@ -135,3 +135,4 @@ exports.CreateNewHashForUser = CreateNewHashForUser;
 exports.CheckHashForUser = CheckHashForUser;
 exports.GenerateTokenFromID = GenerateTokenFromID;
 exports.CheckToken = CheckToken;
+exports.CreateNewUser = CreateNewUser;

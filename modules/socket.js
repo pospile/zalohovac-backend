@@ -110,7 +110,7 @@ io.on('connection', function (socket) {
     socket.on('zaloha-manual', function (data) {
         console.log(data);
         if (data.token != undefined) {
-
+            
         }
     });
 
